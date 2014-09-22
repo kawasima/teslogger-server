@@ -1,0 +1,44 @@
+body {
+    background: url(../img/dark_exa.png);
+}
+
+#app svg {
+    background-color: #fff;
+}
+
+#app line {
+    stroke: black;
+}
+
+#app rect {
+    stroke: black;
+    fill: white;
+    cursor: move;
+}
+
+.handle.handle-line {
+    cursor: move;
+}
+
+.handle.handle-nw {
+    cursor: nw-resize;
+}
+
+.handle.handle-nw {
+    cursor: ne-resize;
+}
+
+.handle.handle-sw {
+    cursor: sw-resize;
+}
+
+.handle.handle-se {
+    cursor: se-resize;
+}
+
+#textarea {
+    position: absolute;
+}
+#textarea textarea {
+    resize: none;
+}
