@@ -13,4 +13,4 @@ pom.xml.asc
 .lein-plugins
 .lein-repl-history
 .nrepl-*
-resource/public/js/main.js
+resources/public/javascript/main.js

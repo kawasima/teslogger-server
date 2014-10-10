@@ -1,9 +1,52 @@
 body {
-    background: url(../img/dark_exa.png);
+    background: url(../images/dark_exa.png);
+    color: #ecf0f1;
+    margin:0;
+    padding:0;
 }
 
-#app svg {
-    background-color: #fff;
+body.splash {
+    background: url(../images/splash.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-color: #333;
+}
+
+body.splash .segment {
+    margin-top: 20%;
+    text-align: center;
+}
+
+form.actions {
+    display: inline-block;
+}
+
+form.actions button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #eee;
+}
+#screenshot-app {
+    position: relative;
+}
+
+#app .menu {
+    bottom:0;
+}
+
+#screenshot-app > img {
+    width: 100%;
+    position: relative;
+    z-index: 2000;
+}
+#screenshot-app > svg {
+    top:0;
+    left:0;
+    position: absolute;
+    z-index: 3000;
 }
 
 #app line {
@@ -14,6 +57,12 @@ body {
     stroke: black;
     fill: white;
     cursor: move;
+}
+
+#app img.data-gallery {
+    width: 75px;
+    height: 75px;
+    cursor: pointer;
 }
 
 .handle.handle-line {
@@ -36,9 +85,11 @@ body {
     cursor: se-resize;
 }
 
-#textarea {
-    position: absolute;
+
+.btn-download {
+    font-size: 0.63em;
 }
-#textarea textarea {
-    resize: none;
+
+.btn-excel {
+    color: #217346;
 }

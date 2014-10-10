@@ -1,5 +1,6 @@
-(ns teslogger.server.discovery
-  (:require [clojure.tools.logging :as log])
+(ns teslogger.server.sync
+  (:require [clojure.tools.logging :as log]
+            [clojure.java.io :as io])
   (:use [ulon-colon.consumer :only [make-consumer consume]])
   (:import [java.nio.channels DatagramChannel Selector SelectionKey]
     [java.nio ByteBuffer]
@@ -21,8 +22,13 @@
     (.read dis ip-bytes 0 4)
     (str "ws:/" (InetAddress/getByAddress ip-bytes) ":" (.readInt dis))))
 
-(defn save-screenshot [{case-id :case-id image :image}]
-  (println case-id))
+(defn save-screenshot [{filename :name case-id :case-id image :body}]
+  (log/info "save-screenshot" filename)
+  (try
+    (let [file (io/file "screenshots" case-id filename)]
+      (io/make-parents file)
+      (io/copy image file))
+    (catch Exception ex (.printStackTrace ex))))
 
 (defn do-receive [key]
   (let [channel (.channel key)
@@ -35,14 +41,15 @@
       (consume consumer save-screenshot))))
 
 (defn start []
-  (let [channel (create-channel 56294)
-         selector (Selector/open)]
-    (.register channel selector SelectionKey/OP_READ)
-    (loop [key-num (.select selector)]
-      (when (> key-num 0)
-        (let [key-set (.selectedKeys selector)]
-          (doseq [key key-set]
-            (when (.isReadable key)
-              (do-receive key)))
-          (recur (.select selector)))))))
-
+  (future
+    (let [channel (create-channel 56294)
+          selector (Selector/open)]
+      (.register channel selector SelectionKey/OP_READ)
+      (loop [key-num (.select selector)]
+        (when (> key-num 0)
+          (let [key-set (.selectedKeys selector)]
+            (doseq [key key-set]
+              (when (.isReadable key)
+                (do-receive key)))
+            (recur (.select selector))))))))
+  
